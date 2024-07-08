@@ -5,7 +5,6 @@ class conexion
     private $server = 'localhost';
     private $user = 'root';
     private $password = '';
-    // private $database = 'trabajo-final-pura';
     private $database = 'pura_php'; //le cambio el nombre a la base de datos 
     private $port  = '3306';
     private $conexion; // guardo un objeto de tipo mysqli
@@ -14,10 +13,9 @@ class conexion
     function __construct()
     {
         $this->conexion = new mysqli($this->server, $this->user, $this->password, $this->database, $this->port);
-        // $this->conexion = new mysqli("localhost","root","","peliculas_cac_java","3306");
         if ($this->conexion->connect_errno) {
             echo "algo va mal con la conexion";
-            die(); //se puede usar exit también
+            die();
         }
     }
     #methods
@@ -37,7 +35,6 @@ class conexion
     public function obtenerDatos($sqlstr)
     {
         $results = $this->conexion->query($sqlstr);
-        // print_r($results);
         // creamos un array vacio
         $resultArray = array();
         #si results tiene algo entonces recorrerlo
