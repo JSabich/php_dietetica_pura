@@ -1,6 +1,5 @@
 
 <?php
-//tengo que agregar el campo 5 que se llama descripción y el campo 7 id_categoria
 require_once 'conexion.php';
 // hereda de conexion entonces puede usar los methods dentro de la clase padre
 class productos extends conexion
@@ -9,7 +8,7 @@ class productos extends conexion
     // atributo para devolver una respuesta al front
     public $response = ['status' => "ok", "result" => array()];
 
-    # inserta una pelicula en la base de datos
+    # inserta un producto en la base de datos
     public function insertarProducto($json)
     {
 
@@ -31,7 +30,6 @@ class productos extends conexion
             $descripcion = $datos['descripcion'];
             $imagen = $datos['imagen'];
             $id_categoria = $datos['id_categoria'];
-            // codigo para levantar la imagen guardarla en el server y guardar la ruta en la base de datos
 
             // id_producto autonumerico
             $query = "INSERT INTO productos (id_producto, nombre, en_stock, precio, descripcion, imagen, id_categoria) VALUES (NULL, '$nombre','$en_stock', '$precio','$descripcion', '$imagen', '$id_categoria')";
@@ -52,7 +50,6 @@ class productos extends conexion
                     "error_id" => "500",
                     "error_msg" => "Error interno del servidor"
                 );
-                #devolvemos un 500
                 return $respuesta;
             }
         }
@@ -86,7 +83,7 @@ class productos extends conexion
 
 
 
-    // para buscar una pelicula por su id
+    // para buscar un producto por su id
     public function obtenerProducto($id)
     {
         $query = "SELECT * FROM productos WHERE id_producto = '$id'";
@@ -97,7 +94,7 @@ class productos extends conexion
             return 0;
         }
     }
-    // para buscar una pelicula por una parte de su nombre
+    // para buscar un producto por una parte de su nombre
     public function buscarProducto($nombre)
     {
         // pasar a minuscula el nombre y el campo de la base tambien
@@ -111,13 +108,12 @@ class productos extends conexion
         }
     }
 
-    #actualiza una pelicula en la base de datos
+    #actualiza un producto en la base de datos
     public function actualizarProducto($json)
     {
 
         #convertimos el json a un array asociativo
         $datos = json_decode($json, true);
-
 
         #si no estan los datos requeridos
         if (!isset($datos['id_producto']) || !isset($datos['nombre']) || !isset($datos['en_stock']) || !isset($datos['precio']) || !isset($datos['descripcion']) || !isset($datos['imagen']) || !isset($datos['id_categoria'])) {
@@ -136,8 +132,7 @@ class productos extends conexion
             $descripcion = $datos['descripcion'];
             $imagen = $datos['imagen'];
             $id_categoria = $datos['id_categoria'];
-            // codigo para levantar la imagen guardarla en el server y guardar la ruta en la base de datos
-            // faltan validaciones para la fecha de lanzamiento 
+            
             $query = "UPDATE productos SET nombre = '$nombre', en_stock = '$en_stock', precio = '$precio', descripcion = '$descripcion', imagen = '$imagen', id_categoria = '$id_categoria', WHERE id_producto = '$id'";
             $datos = $this->nonQuery($query);
             if ($datos >= 1) {

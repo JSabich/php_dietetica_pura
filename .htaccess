@@ -5,7 +5,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php
 
-#estas lineas son para quitar la extencion .html
+#estas lineas son para quitar la extension .html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
 RewriteRule ^(.+)$ $1.html
@@ -14,3 +14,15 @@ RewriteRule ^(.+)$ $1.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+?)/?$ index.php?url=$1 [L,QSA]
+
+#Evitar error CORS
+Header add Access-Control-Allow-Origin "*"
+Header add Access-Control-Allow-Headers "origin, x-requested-with, content-type"
+Header add Access-Control-Allow-Methods "PUT, GET, POST, DELETE, OPTIONS"
+RewriteRule ^(.*)$ $1 [NS,E=no-gzip:1,E=dont-vary:1]
+<FilesMatch ".(js|css|xml|png|gz|html|woff2|slim.min.js)$">
+  <IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+  </IfModule>
+    Header append Vary: Accept-Encoding
+</FilesMatch>
