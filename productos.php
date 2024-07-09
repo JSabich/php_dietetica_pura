@@ -3,9 +3,12 @@ require_once 'conexion.php';
 require_once 'productos.class.php';
 
 // Evitar error de CORS
+header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: *"); //GET, POST, PUT, DELETE
-header("Access-Control-Allow-Headers: Content-Type"); //json
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+header("Access-Control-Expose-Headers: *");
+header("Access-Control-Allow-Private-Network: true");
 
 // Función para responder con JSON y código de estado HTTP
 function respuestaJson($statusCode, $response)
@@ -17,7 +20,7 @@ function respuestaJson($statusCode, $response)
 
 /// Verificar el método de la solicitud
 if ($_SERVER['REQUEST_METHOD'] === "GET") {
-    $productos = new Productos(); // productos hereda de conexion, entonces automaticamente creo una conexion a la base
+    $productos = new productos(); // productos hereda de conexion, entonces automaticamente creo una conexion a la base
     $datos = $productos->listarProductosSinPaginar(); // Listar todos los productos json
     // Retornar los datos
     respuestaJson(200, $datos);
@@ -25,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     // Insertar un nuevo producto
-    $productos = new Productos(); // conectate a la base automaticamente
+    $productos = new productos(); // conectate a la base automaticamente
     $postBody = file_get_contents("php://input"); // levanta el json del body
     $datosArray = $productos->insertarProducto($postBody);
     // Retornar la respuesta
@@ -34,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 if ($_SERVER['REQUEST_METHOD'] === "PUT") {
     // Actualizar un producto existente
-    $productos = new Productos(); // conectate a la base automaticamente
+    $productos = new productos(); // conectate a la base automaticamente
     $putBody = file_get_contents("php://input"); // levanta el json del body
     $datosArray = $productos->actualizarProducto($putBody);
     // Retornar la respuesta
@@ -43,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === "PUT") {
 
 if ($_SERVER['REQUEST_METHOD'] === "DELETE") {
     // Eliminar un producto existente
-    $productos = new Productos(); // conectate a la base automaticamente
+    $productos = new productos(); // conectate a la base automaticamente
     $deleteBody = file_get_contents("php://input"); // levanta el json del body
     $datosArray = $productos->eliminarProducto($deleteBody);
     // Retornar la respuesta
