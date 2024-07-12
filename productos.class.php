@@ -133,7 +133,7 @@ class productos extends conexion
             $imagen = $datos['imagen'];
             $id_categoria = $datos['id_categoria'];
             
-            $query = "UPDATE productos SET nombre = '$nombre', en_stock = '$en_stock', precio = '$precio', descripcion = '$descripcion', imagen = '$imagen', id_categoria = '$id_categoria', WHERE id_producto = '$id'";
+            $query = "UPDATE `productos` SET `nombre` = '$nombre', `en_stock` = '$en_stock', `precio` = '$precio', `descripcion` = '$descripcion', `imagen` = '$imagen', `id_categoria` = '$id_categoria' WHERE `productos`.`id_producto` = $id";
             $datos = $this->nonQuery($query);
             if ($datos >= 1) {
                 $respuesta = $this->response;
